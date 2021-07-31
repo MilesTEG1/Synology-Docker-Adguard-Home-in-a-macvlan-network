@@ -1,0 +1,86 @@
+##==============================================================================================
+##                                                                                            ##
+##                   Fichier docker-compose.yml pour Adguard-Home en macvlan                  ##
+##                                                                                            ##
+##==============================================================================================
+
+##============================================================================================##
+##                                                                                            ##
+## Attention, il faut créer le réseau macvlan à l'aide du script : macvlan-network.sh         ##
+## Ce dernier va créer un réseau macvlan ayant comme IP unique 192.168.2.210                  ##
+## Cette IP doit être dans la plage d'IP mavclan définie dans le script de création du réseau.##
+## Le conteneur sera donc vu comme une machine sur le réseau LAN, mais ne pourra pas être     ##
+## joint par le NAS lui-même.                                                                 ##
+## Pour celà, il faut utiliser le second script : boot-bridgemacvlan-interface.sh             ##
+## Ce dernier va créer une IP-interface virtuelle qui pourra être accessible par le NAS.      ##
+## Cette interface ne persiste pas au démarrage, il faudra mettre le script en tâche          ##
+## planifiée avec le planificateur de tâches dans DSM.                                        ##
+##                                                                                            ##
+## Voir tuto : https://www.nas-forum.com/forum/topic/69319-tuto-docker-macvlan-pi-hole/       ##
+##                                                                                            ##
+##                                         Attention !                                        ##
+##                                                                                            ##
+## Ces deux scripts ne sont à utiliser qu'une seule fois, quelque soit le nombre de           ##
+## conteneurs qui en bénéficieront.                                                           ##
+## Par exemple, si vous utilisez 2 conteneurs en macvlan, une fois le réseau macvlan créé     ##
+## pour le 1er, il est inutile (et impossible) de le recréer.                                 ##
+## Le script boot-bridgemacvlan-interface.sh ne doit être lancé qu'une seule fois, et à       ##
+## chaque reboot. L'IP virtuelle est unique, il ne faut pas en recréer une seconde.           ##
+##                                                                                            ##
+##==============================================================================================
+
+---
+version: "2.4"
+services:
+  adguardhome_macvlan:
+    image: adguard/adguardhome:latest   # https://github.com/AdguardTeam/AdGuardHome
+                                        # https://github.com/AdguardTeam/AdGuardHome/wiki/Docker
+    container_name: adguardhome_macvlan
+    
+    hostname: AdGuard-Home--DS920+      # Permet d'avoir un nom pour le conteneur dans AdGuard lui même (sinon c'est une chaine aléatoire)
+    
+    environment:
+      - PUID=1000  # Utiliser la commande (en SSH) : id NOM_UTILISATEUR
+      - PGID=100   # Utiliser la commande (en SSH) : id NOM_UTILISATEUR
+      - TZ=Europe/Paris
+      - LANG=fr_FR.UTF8
+      - LANGUAGE=fr_FR.UTF8
+
+    # ---------------------------------------------------------------------------------
+    # Le label ci-dessous permet à Watchtower de faire les mises à jour automatiquement
+    # Cela peut-être supprimé si Watchtower n'est pas utilisé.
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    # ---------------------------------------------------------------------------------
+
+    volumes:
+      - "/volume1/docker/adguardhome_macvlan/work:/opt/adguardhome/work"
+      - "/volume1/docker/adguardhome_macvlan/conf:/opt/adguardhome/conf"
+
+    # La déclaration des ports n'est pas utile lors d'une installation en macvlan, car tous les ports seront directement accessible
+    # avec l'IP virtuelle.
+    # ports:
+    #   -  "953:53"
+    #   -  "967:67/udp"
+    #   -  "968:68"
+    #   -  "8080:80/tcp"
+    #   -  "9443:443/tcp"
+    #   -  "9853:853/tcp"
+    #   -  "3030:3000/tcp"
+
+    networks:
+      macvlan-network:
+        ipv4_address: 192.168.xxx.yyy     # Mettre ici l'IP macvlan dans la plage définie dans les scripts
+                                          # Dans mon cas c'est 192.168.2.210
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: "/bin/netstat -pant | /bin/grep 53"
+      interval: 45s
+      timeout: 30s
+      retries: 3
+
+networks:
+  macvlan-network:        # Ce réseau devra bien entendu être créé avant avec le script annexe ou avec Portainer.
+    external: true
