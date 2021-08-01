@@ -18,9 +18,7 @@ Ce tutoriel propose une méthode pas à pas pour installer Adguard Home sur un N
 
 **Difficulté : *facile-moyenne***
 
-<span style="color:orange;">Word up</span>
-<h4 style="color:#ff0000">Danger</h3>
-<span style="color:#ff0000">Word up</span>
+<span color="red">redtext</span>
 
 Pour suivre ce tutoriel, vous devrez :
 
