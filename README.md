@@ -16,6 +16,10 @@
 
 Ce tutoriel propose une méthode pas à pas pour installer Adguard Home sur un NAS Synology avec Docker et un réseau macvlan.
 
+**Difficulté : *facile-moyenne***
+
+<span style="color:orange;">Word up</span>
+
 Pour suivre ce tutoriel, vous devrez :
 
 - avoir installé Docker sur un NAS compatible ;
@@ -31,11 +35,13 @@ Si tel n'était pas le cas, voici quelques tutos utiles :
 
 ## 1.2. Quelques sources d'inspiration qui m'ont permis de faire ce tutoriel
 
-Lorsque j'ai mis en place Adguard Home pour la première fois, c'était en bridge, mais ça avait occasionné quelques soucis de reconnaissances d'IP des machines qui étaient toutes celle du NAS. Puis j'ai essayé en host, mais là avec tous les ports que ça bloquait, et à l'époque, impossible d'utiliser AdGuard Home depuis la connexion au serveur VPN du NAS... <br>
+Lorsque j'ai mis en place Adguard Home pour la première fois, c'était en bridge, mais ça avait occasionné quelques soucis de reconnaissances d'IP des machines qui étaient toutes celle du NAS. Puis j'ai essayé en host, mais là avec tous les ports que ça bloquait, et à l'époque, impossible d'utiliser AdGuard Home depuis la connexion au serveur VPN du NAS... <br/>
 Je me suis donc aidé des tutoriaux ci-dessous pour faire une installation en macvlan afin de donner une adresse IP propre au conteneur Adguard Home :
 
 - [[TUTO] [Docker - macvlan] Pi-hole](https://www.nas-forum.com/forum/topic/69319-tuto-docker-macvlan-pi-hole/) (sur nas-forum.com)
 - [[TUTO] Certificat SSL & reverse proxy via Docker](https://www.nas-forum.com/forum/topic/67311-tuto-certificat-ssl-reverse-proxy-via-docker/)  (sur nas-forum.com)
+
+Je remercie [.Shad.](https://www.nas-forum.com/forum/profile/74532-shad/) de Nas-Forum pour ses deux tutos et son autorisation de réutiliser certaines de ces explications sur le macvlan.
 
 ## 1.3. Fichiers disponibles sur ce dépôt
 
