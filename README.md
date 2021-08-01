@@ -16,9 +16,7 @@
 
 Ce tutoriel propose une méthode pas à pas pour installer Adguard Home sur un NAS Synology avec Docker et un réseau macvlan.
 
-**Difficulté : *facile-moyenne***
-
-<span color="red">redtext</span>
+**Difficulté :** :blue_book: facile à :green_book: moyenne
 
 Pour suivre ce tutoriel, vous devrez :
 
