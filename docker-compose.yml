@@ -37,7 +37,7 @@ services:
                                         # https://github.com/AdguardTeam/AdGuardHome/wiki/Docker
     container_name: adguardhome_macvlan
     
-    hostname: AdGuard-Home--DS920+      # Permet d'avoir un nom pour le conteneur dans AdGuard lui même (sinon c'est une chaine aléatoire)
+    hostname: AdGuard-Home--MaMachine      # Permet d'avoir un nom pour le conteneur dans AdGuard lui même (sinon c'est une chaine aléatoire)
     
     environment:
       - PUID=1000  # Utiliser la commande (en SSH) : id NOM_UTILISATEUR
