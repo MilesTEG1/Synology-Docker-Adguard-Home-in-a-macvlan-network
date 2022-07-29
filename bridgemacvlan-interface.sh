@@ -8,6 +8,9 @@
 ## https://www.nas-forum.com/forum/topic/69319-tuto-docker-macvlan-pi-hole/                  ##
 ## https://www.nas-forum.com/forum/topic/67311-tuto-certificat-ssl-reverse-proxy-via-docker/ ##
 ##                                                                                           ##
+## Vérifier la bonne création de l'interface avec la commande suivante :                     ##
+##      ifconfig | grep -A 9 macv0   
+##                                                                                           ##
 ## Rappels des différentes IP :                                                              ##
 ## - Plage d'IP macvlan :  192.168.xxx.MMM/28  ==  192.168.2.208/28                          ##
 ## - IP virtuelle unique : 192.168.xxx.zzz/32  ==  192.168.2.210/32                          ##
